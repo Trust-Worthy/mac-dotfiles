@@ -94,5 +94,45 @@ brew install btop
 
 echo "Setup complete!"
 
+echo "Setting up Vim color schemes..."
+
+# Create Vim theme directory
+mkdir -p ~/.vim/pack/themes/start
+
+# Install Dracula
+if [ ! -d ~/.vim/pack/themes/start/dracula ]; then
+  git clone https://github.com/dracula/vim.git ~/.vim/pack/themes/start/dracula
+  echo "✅ Installed Dracula theme"
+else
+  echo "⏩ Dracula theme already installed"
+fi
+
+# Install Tender
+if [ ! -d ~/.vim/pack/themes/start/tender ]; then
+  git clone https://github.com/jacoborus/tender.vim.git ~/.vim/pack/themes/start/tender
+  echo "✅ Installed Tender theme"
+else
+  echo "⏩ Tender theme already installed"
+fi
+
+# Write .vimrc if not already set
+VIMRC=~/.vimrc
+if ! grep -q "colorscheme dracula" "$VIMRC"; then
+  echo "Creating ~/.vimrc with Dracula theme"
+  cat <<EOF > "$VIMRC"
+syntax on
+set number
+set relativenumber
+set termguicolors
+colorscheme dracula
+
+" fallback if Dracula fails
+if v:errmsg =~# 'Cannot find color scheme'
+  colorscheme tender
+endif
+EOF
+else
+  echo "⏩ ~/.vimrc already contains theme config"
+fi
 
 info "✅ Done! Restart your terminal to load pyenv, conda, and rust paths."
