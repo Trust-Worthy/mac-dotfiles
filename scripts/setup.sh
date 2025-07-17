@@ -84,4 +84,15 @@ else
   info "Rust already installed."
 fi
 
+# Install Oh My Zsh
+echo "Installing Oh My Zsh..."
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Install btop (assuming you have Homebrew installed)
+echo "Installing btop..."
+brew install btop
+
+echo "Setup complete!"
+
+
 info "✅ Done! Restart your terminal to load pyenv, conda, and rust paths."
