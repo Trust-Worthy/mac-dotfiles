@@ -135,4 +135,51 @@ else
   echo "⏩ ~/.vimrc already contains theme config"
 fi
 
+echo "🔧 Configuring Git..."
+
+# Prompt the user for their Git identity (or set defaults)
+read -p "Enter your Git name: " git_name
+read -p "Enter your Git email: " git_email
+
+# Set global Git config
+git config --global user.name "$git_name"
+git config --global user.email "$git_email"
+
+# Set default editor (optional: change to nvim or nano)
+git config --global core.editor "vim"
+
+# Enable helpful Git settings
+git config --global color.ui auto
+git config --global init.defaultBranch main
+git config --global pull.rebase false
+
+# Set some common aliases (optional)
+# git config --global alias.co checkout
+# git config --global alias.br branch
+# git config --global alias.ci commit
+# git config --global alias.st status
+
+echo "✅ Git configured!"
+
+info "🔗 Symlinking dotfiles..."
+
+DOTFILES_DIR="$HOME/mac-dotfiles"
+
+ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+ln -sf "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
+ln -sf "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$DOTFILES_DIR/.aliases" "$HOME/.aliases"
+ln -sf "$DOTFILES_DIR/.wezterm.lua" "$HOME/.wezterm.lua"
+
+info "✅ Dotfiles symlinked."
+
+# Install neofetch if not already installed
+if ! command -v neofetch &>/dev/null; then
+  info "Installing neofetch..."
+  brew install neofetch
+else
+  info "neofetch already installed."
+fi
+
+
 info "✅ Done! Restart your terminal to load pyenv, conda, and rust paths."
